@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -32,6 +33,11 @@ public class OrderingCardTest {
 
         @Test
         void shouldTestOrderingCard () throws InterruptedException {
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("--disable-dev-shm-usage");
+            options.addArguments("--no-sandbox");
+            options.addArguments("--headless");
+            driver = new ChromeDriver(options);
             driver.get("http://localhost:9999/");
             WebElement form = driver.findElement(By.cssSelector("[method=post]"));
             form.findElement(By.cssSelector("[data-test-id=name] input")).sendKeys("Иванов Олег");
@@ -40,11 +46,16 @@ public class OrderingCardTest {
             form.findElement(By.cssSelector("[class=button__text]")).click();
             String text = driver.findElement(By.cssSelector("[data-test-id=order-success]")).getText();
             assertEquals("Ваша заявка успешно отправлена! Наш менеджер свяжется с вами в ближайшее время.", text.trim());
-            Thread.sleep(5000);
+//            Thread.sleep(5000);
         }
 
         @Test
         void InvalidName () throws InterruptedException {
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("--disable-dev-shm-usage");
+            options.addArguments("--no-sandbox");
+            options.addArguments("--headless");
+            driver = new ChromeDriver(options);
             driver.get("http://localhost:9999/");
             WebElement form = driver.findElement(By.cssSelector("[method=post]"));
             form.findElement(By.cssSelector("[data-test-id=name] input")).sendKeys("Ivanov Oleg");
@@ -53,7 +64,7 @@ public class OrderingCardTest {
             form.findElement(By.cssSelector("[class=button__text]")).click();
             String text = driver.findElement(By.className("input__sub")).getText();
             assertEquals("Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы.", text.trim());
-            Thread.sleep(5000);
+//            Thread.sleep(5000);
         }
     }
 
