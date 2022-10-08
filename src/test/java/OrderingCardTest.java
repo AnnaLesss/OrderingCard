@@ -78,5 +78,13 @@ public class OrderingCardTest {
         String text = driver.findElement(By.cssSelector("[data-test-id=agreement].input_invalid")).getText();
         assertEquals("Я соглашаюсь с условиями обработки и использования моих персональных данных и разрешаю сделать запрос в бюро кредитных историй", text.trim());
     }
+    @Test
+    void noNameNoPhone() {
+        WebElement form = driver.findElement(By.cssSelector("[method=post]"));
+        form.findElement(By.cssSelector("[data-test-id=agreement]")).click();
+        form.findElement(By.cssSelector("[class=button__text]")).click();
+        String text = driver.findElement(By.cssSelector("[data-test-id='name'].input_invalid .input__sub")).getText();
+        assertEquals("Поле обязательно для заполнения", text.trim());
+    }
 }
 
