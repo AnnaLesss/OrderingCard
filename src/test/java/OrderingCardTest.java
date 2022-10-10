@@ -78,12 +78,24 @@ public class OrderingCardTest {
         String text = driver.findElement(By.cssSelector("[data-test-id=agreement].input_invalid")).getText();
         assertEquals("Я соглашаюсь с условиями обработки и использования моих персональных данных и разрешаю сделать запрос в бюро кредитных историй", text.trim());
     }
+
     @Test
-    void noNameNoPhone() {
+    void noName() {
         WebElement form = driver.findElement(By.cssSelector("[method=post]"));
+        form.findElement(By.cssSelector("[data-test-id=phone] input")).sendKeys("+79012345678");
         form.findElement(By.cssSelector("[data-test-id=agreement]")).click();
         form.findElement(By.cssSelector("[class=button__text]")).click();
         String text = driver.findElement(By.cssSelector("[data-test-id='name'].input_invalid .input__sub")).getText();
+        assertEquals("Поле обязательно для заполнения", text.trim());
+    }
+
+    @Test
+    void noPhone() {
+        WebElement form = driver.findElement(By.cssSelector("[method=post]"));
+        form.findElement(By.cssSelector("[data-test-id=name] input")).sendKeys("Иванов Олег");
+        form.findElement(By.cssSelector("[data-test-id=agreement]")).click();
+        form.findElement(By.cssSelector("[class=button__text]")).click();
+        String text = driver.findElement(By.cssSelector("[data-test-id='phone'].input_invalid .input__sub")).getText();
         assertEquals("Поле обязательно для заполнения", text.trim());
     }
 }
